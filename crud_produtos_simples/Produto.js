@@ -23,7 +23,6 @@ function inserirProduto_BD(nome, preco){
         conn.query(sql,[nomex, preco], function (err, result) {
             if (err) throw err;
             console.log("Produto "+nomex+" inserido na tabela(BD) de Produtos");
-            console.log("Produto "+nomex+" adicionado a array de Produtos");
         });
     });
 }
@@ -32,20 +31,7 @@ function inserirProduto_Array(codigo, nome, preco) {
     Produtos.push(new Produto(codigo, nome, preco));
 }
 
-
-function query_produtos(){
-    conn.connect(function(err) {
-        var sql = "SELECT * FROM produto";
-        conn.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("Query(BD) de produtos");
-            result = JSON.parse(JSON.stringify(result));
-            result.forEach(EachPrint);
-        });
-    });
-}
-
-function update_array_Produtos(){
+/*function update_array_Produtos(){
     conn.connect(function(err) {
         var sql = "SELECT * FROM produto";
         conn.query(sql, function (err, result) {
@@ -56,7 +42,6 @@ function update_array_Produtos(){
                 codigo_x = result[x].codigo;
                 nome_x = result[x].nome;
                 preco_x = result[x].preco;
-
                 inserirProduto_Array(result[x].codigo,result[x].nome, result[x].preco);
                 console.log("Produto "+nome_x+" adicionado do BD para array");
                 console.log(codigo_x, nome_x, preco_x);
@@ -65,6 +50,22 @@ function update_array_Produtos(){
         });
     });
 }
+*/
+
+
+function query_produtos(){
+    conn.connect(function(err) {
+        var sql = "SELECT * FROM produto";
+        conn.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("\nQuery(BD) de produtos");
+            result = JSON.parse(JSON.stringify(result));
+            result.forEach(EachPrint);
+        });
+    });
+}
+
+
 
 
 
@@ -76,8 +77,8 @@ function query_produtos_porCodigo(codigo){
         conn.query(sql,[codigo], function (err, result) {
             if (err) throw err;
             console.log("\nQuery(BD) de produtos por codigo: "+codigo);
-            result = JSON.stringify(result);
-            console.log(result);
+            result = JSON.parse(JSON.stringify(result));
+            result.forEach(EachPrint);
 
         });
     });
@@ -90,8 +91,8 @@ function query_produtos_porNome(nome){
         conn.query(sql,[nomex], function (err, result) {
             if (err) throw err;
             console.log("Query de produtos por nome: "+nomex);
-            result = JSON.stringify(result);
-            console.log(result);
+            result = JSON.parse(JSON.stringify(result));
+            result.forEach(EachPrint);
 
         });
     });
@@ -119,21 +120,22 @@ function EachPrint(item){
 //inserirProduto("Bergamota", 3.7);
 
 
-
 //query_produtos_porCodigo(6);
 //query_produtos_porNome("laranja");
 
-
-
-
-
 //query_produtos();
+//Produtos.forEach(EachPrint);
+//update_array_Produtos();
 
-inserirProduto_Array(12, "zaz", 2.5);
+inserirProduto_Array(12, "SEM PACIENCIA", 2.5);
 
-update_array_Produtos();
 
-Produtos.forEach(EachPrint);
+
+
+
+query_produtos();
+query_produtos_porNome("Bergamota");
+query_produtos_porCodigo(9)
 
 
 
